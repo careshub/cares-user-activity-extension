@@ -86,7 +86,8 @@ class WP_User_Activity_Type_Maps_Reports extends WP_User_Activity_Type {
 		// Logging map/report save actions by users who aren't logged in. Only logged-in users can save maps.
 		// add_action( 'wp_ajax_nopriv_cc-update-maps-reports', array( $this, 'created_edited_deleted_item' ) );
 		// Logging map/report save actions by users who are logged in.
-		add_action( 'wp_ajax_cc-update-maps-reports',        array( $this, 'created_edited_deleted_item' ) );
+		add_action( 'mrad_after_update_maps_reports', array( $this, 'saved_edited_deleted_map_report' ) );
+
 		// Logging map/report generation and views of existing maps.
 		add_action( 'wp_ajax_nopriv_cares-maps-reports-user-activity', array( $this, 'map_environment_activity' ) );
 		add_action( 'wp_ajax_cares-maps-reports-user-activity',        array( $this, 'map_environment_activity' ) );
