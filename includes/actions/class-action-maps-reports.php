@@ -291,7 +291,7 @@ class WP_User_Activity_Type_Maps_Reports extends WP_User_Activity_Type {
 
 		// Record the 'reporttype' parameter to meta.
 		if ( ! empty( $item['reporttype'] ) ) {
-			$activity_args['reporttype'] = sanitize_text_field( $item['reporttype'] );
+			$activity_args['item_type'] = sanitize_text_field( $item['reporttype'] );
 		}
 
 		// Insert activity
