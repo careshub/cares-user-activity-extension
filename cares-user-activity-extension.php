@@ -44,6 +44,9 @@ function cares_user_activity_add_custom_types( $types = array() ) {
 }
 add_filter( 'wp_get_default_user_activity_types', 'cares_user_activity_add_custom_types' );
 
+// Disable the single user dropdown. Our user base is too huge.
+add_filter( 'wp_user_activity_show_user_filter', '__return_false'  );
+
 /**
  * Return the plugin URL
  *
