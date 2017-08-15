@@ -41,12 +41,13 @@ class WP_User_Activity_Type_Maps_Reports extends WP_User_Activity_Type {
 		// Set name
 		$this->name = esc_html__( 'Maps & Reports', 'cares-user-activity-extension' );
 
-		// Create
+		// These actions are fired when the mirror BP Doc is created/modified.
+		// Save
 		new WP_User_Activity_Action( array(
 			'type'    => $this,
-			'action'  => 'create',
-			'name'    => esc_html__( 'Create', 'wp-user-activity' ),
-			'message' => esc_html__( '%1$s created the "%2$s" %3$s %4$s.', 'cares-user-activity-extension' )
+			'action'  => 'save',
+			'name'    => esc_html__( 'Save', 'wp-user-activity' ),
+			'message' => esc_html__( '%1$s saved the "%2$s" %3$s %4$s.', 'cares-user-activity-extension' )
 		) );
 
 		// Update
@@ -87,9 +88,9 @@ class WP_User_Activity_Type_Maps_Reports extends WP_User_Activity_Type {
 	 *
 	 * @return string
 	 */
-	public function create_action_callback( $post, $meta = array() ) {
+	public function save_action_callback( $post, $meta = array() ) {
 		return sprintf(
-			$this->get_activity_action( 'create' ),
+			$this->get_activity_action( 'save' ),
 			$this->get_activity_author_link( $post ),
 			$meta->object_name,
 			ucfirst( $meta->object_subtype ),
@@ -140,13 +141,14 @@ class WP_User_Activity_Type_Maps_Reports extends WP_User_Activity_Type {
 	/** Logging ***************************************************************/
 
 	/**
-	 * Map or report created, edited or deleted
+	 * Map or report saved, edited or deleted
+	 * This is fired when Yan sends the info to create the mirror BP doc.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param  int  $post_id
 	 */
-	public function created_edited_deleted_item( $item_id = 0, $item_type = 'map', $action = 'create' ) {
+	public function saved_edited_deleted_map_report( $item_id = 0, $item_type = 'map', $action = 'save' ) {
 
 		// Fetch details from the AJAX request.
 		$user_id       = ! empty( $_REQUEST['user_id'] )       ? (int) $_REQUEST['user_id'] : get_current_user_id();
@@ -212,7 +214,7 @@ class WP_User_Activity_Type_Maps_Reports extends WP_User_Activity_Type {
 		if ( 'update' == $action ) {
 			// Is this a new item or has an existing item been updated?
 			if ( ! $this->check_activity_item_exists( $item_type, $item_id ) ) {
-				$action = 'create';
+				$action = 'save';
 			}
 		}
 
